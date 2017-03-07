@@ -14,8 +14,7 @@
         android:id="@+id/resumeTemplate"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:entries="@array/resume_templates"
-        android:prompt="@string/template" />
+        android:entries="@array/resume_templates"/>
     <Button
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
