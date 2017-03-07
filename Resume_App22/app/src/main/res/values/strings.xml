@@ -4,4 +4,8 @@
         <item>Classic</item>
         <item>Target</item>
     </string-array>
+    <string-array name="classic_types">
+        <item>Classic1</item>
+        <item>Classic2</item>
+    </string-array>
 </resources>
