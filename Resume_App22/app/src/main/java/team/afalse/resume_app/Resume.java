@@ -7,98 +7,130 @@ package team.afalse.resume_app;
 public class Resume {
     private int id;
     private String name;
+    private String phone;
+    private String email;
+    private String link;
     private String summary;
-    private String[] headers;
-    private String[] jobs;
+    private String[] jobTitle;
     private String[] jobDescriptions;
     private String[] skills;
+    private String[] educationTitle;
     private String[] education;
-    private String[] contactInfo;
 
     public Resume(){}
 
-    public Resume(int id, String name, String summary, String[] headers , String[] jobs, String[] jobDescriptions,
-                  String[] skills, String[] education, String[] contactInfo){
+    public Resume(int id, String name, String phone, String email, String link, String summary, String[] jobTitle, String[] jobDescriptions, String[] skills, String[] educationTitle, String[] education) {
         this.id = id;
         this.name = name;
+        this.phone = phone;
+        this.email = email;
+        this.link = link;
         this.summary = summary;
-        this.headers = headers;
-        this.jobs = jobs;
+        this.jobTitle = jobTitle;
         this.jobDescriptions = jobDescriptions;
         this.skills = skills;
+        this.educationTitle = educationTitle;
         this.education = education;
-        this.contactInfo = contactInfo;
     }
 
-    public int GetId(){
+    public Resume(String name, String phone, String email, String link, String summary, String[] jobTitle, String[] jobDescriptions, String[] skills, String[] educationTitle, String[] education) {
+        this.name = name;
+        this.phone = phone;
+        this.email = email;
+        this.link = link;
+        this.summary = summary;
+        this.jobTitle = jobTitle;
+        this.jobDescriptions = jobDescriptions;
+        this.skills = skills;
+        this.educationTitle = educationTitle;
+        this.education = education;
+    }
+
+    public int getId() {
         return id;
     }
 
-    public void SetId(int id){
+    public void setId(int id) {
         this.id = id;
     }
 
-    public String GetName() {
+    public String getName() {
         return name;
     }
 
-    public void SetName(String name) {
+    public void setName(String name) {
         this.name = name;
     }
 
-    public String GetSummary() {
+    public String getPhone() {
+        return phone;
+    }
+
+    public void setPhone(String phone) {
+        this.phone = phone;
+    }
+
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
+    }
+
+    public String getLink() {
+        return link;
+    }
+
+    public void setLink(String link) {
+        this.link = link;
+    }
+
+    public String getSummary() {
         return summary;
     }
 
-    public void SetSummary(String summary) {
+    public void setSummary(String summary) {
         this.summary = summary;
     }
 
-    public String[] GetHeaders() {
-        return headers;
+    public String[] getJobTitle() {
+        return jobTitle;
     }
 
-    public void SetHeaders(String[] headers) {
-        this.headers = headers;
+    public void setJobTitle(String[] jobTitle) {
+        this.jobTitle = jobTitle;
     }
 
-    public String[] GetJobs() {
-        return jobs;
-    }
-
-    public void SetJobs(String[] jobs) {
-        this.jobs = jobs;
-    }
-
-    public String[] GetJobDescriptions() {
+    public String[] getJobDescriptions() {
         return jobDescriptions;
     }
 
-    public void SetJobDescriptions(String[] jobDescriptions) {
+    public void setJobDescriptions(String[] jobDescriptions) {
         this.jobDescriptions = jobDescriptions;
     }
 
-    public String[] GetSkills() {
+    public String[] getSkills() {
         return skills;
     }
 
-    public void SetSkills(String[] skills) {
+    public void setSkills(String[] skills) {
         this.skills = skills;
     }
 
-    public String[] GetEducation() {
+    public String[] getEducationTitle() {
+        return educationTitle;
+    }
+
+    public void setEducationTitle(String[] educationTitle) {
+        this.educationTitle = educationTitle;
+    }
+
+    public String[] getEducation() {
         return education;
     }
 
-    public void SetEducation(String[] education) {
+    public void setEducation(String[] education) {
         this.education = education;
-    }
-
-    public String[] GetContactInfo() {
-        return contactInfo;
-    }
-
-    public void SetContactInfo(String[] contactInfo) {
-        this.contactInfo = contactInfo;
     }
 }

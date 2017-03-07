@@ -5,25 +5,39 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context="team.afalse.resume_app.MainActivity">
-
-    <TextView
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:text="Choose resume template" />
-    <Spinner
-        android:id="@+id/resumeTemplate"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:entries="@array/resume_templates" />
-    <Button
+    <LinearLayout
         android:layout_width="368dp"
-        android:layout_height="wrap_content"
-        android:id="@+id/btnGo"
-        android:text="Create Resume" />
-    <ListView
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:id="@+id/resumeList">
-    </ListView>
-
+        android:layout_height="551dp"
+        android:orientation="vertical"
+        tools:layout_editor_absoluteY="8dp"
+        tools:layout_editor_absoluteX="8dp">
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Choose resume template"
+            android:layout_weight="1"
+            android:textAlignment="center"
+            android:textColor="#000"
+            android:textSize="24dp"/>
+        <Spinner
+            android:id="@+id/resumeTemplate"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:entries="@array/resume_templates"
+            android:layout_weight="1"
+            android:textSize="18dp"/>
+        <Button
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/btnGo"
+            android:text="Create Resume"
+            android:layout_weight="1"
+            android:textSize="18dp"/>
+        <ListView
+            android:layout_width="match_parent"
+            android:layout_height="420dp"
+            android:id="@+id/resumeList"
+            android:layout_weight="1">
+        </ListView>
+    </LinearLayout>
 </android.support.constraint.ConstraintLayout>
