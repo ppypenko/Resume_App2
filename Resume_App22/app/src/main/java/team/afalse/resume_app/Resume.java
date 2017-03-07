@@ -13,14 +13,12 @@ public class Resume {
     private String[] jobDescriptions;
     private String[] skills;
     private String[] education;
-    private String[] references;
-    private String address;
     private String[] contactInfo;
 
     public Resume(){}
 
     public Resume(int id, String name, String summary, String[] headers , String[] jobs, String[] jobDescriptions,
-                  String[] skills, String[] education, String[] references, String address, String[] contactInfo){
+                  String[] skills, String[] education, String[] contactInfo){
         this.id = id;
         this.name = name;
         this.summary = summary;
@@ -29,8 +27,6 @@ public class Resume {
         this.jobDescriptions = jobDescriptions;
         this.skills = skills;
         this.education = education;
-        this.references = references;
-        this.address = address;
         this.contactInfo = contactInfo;
     }
 
@@ -96,22 +92,6 @@ public class Resume {
 
     public void SetEducation(String[] education) {
         this.education = education;
-    }
-
-    public String[] GetReferences() {
-        return references;
-    }
-
-    public void SetReferences(String[] references) {
-        this.references = references;
-    }
-
-    public String GetAddress() {
-        return address;
-    }
-
-    public void SetAddress(String address) {
-        this.address = address;
     }
 
     public String[] GetContactInfo() {
