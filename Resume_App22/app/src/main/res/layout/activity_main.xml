@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="team.afalse.resume_app.MainActivity">
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Choose resume template"/>
+    <Spinner
+        android:id="@+id/resumeTemplate"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:entries="@array/resume_templates"
+        android:prompt="@string/template" />
+    <Button
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/btnGo"
+        android:text="Create Resume"/>
+    <ListView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/resumeList">
+    </ListView>
+
+</android.support.constraint.ConstraintLayout>

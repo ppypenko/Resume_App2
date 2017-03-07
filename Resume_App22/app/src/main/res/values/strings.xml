@@ -1,0 +1,7 @@
+<resources>
+    <string name="app_name">Resume_App</string>
+    <string-array name="resume_templates">
+        <item>Classic</item>
+        <item>Target</item>
+    </string-array>
+</resources>
