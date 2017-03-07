@@ -28,8 +28,6 @@ public class DBHandler extends SQLiteOpenHelper {
     private static final String KEY_JOB_DESCRIPTIONS = "job_descriptions";
     private static final String KEY_SKILLS = "skills";
     private static final String KEY_EDUCATION = "education";
-    private static final String KEY_REFERENCES = "references";
-    private static final String KEY_ADDRESS = "address";
     private static final String KEY_CONTACT_INFO = "contact_info";
 
     public DBHandler(Context context) {
@@ -47,7 +45,6 @@ public class DBHandler extends SQLiteOpenHelper {
                 + KEY_SUMMARY + " TEXT, " + KEY_HEADERS + " TEXT, "
                 + KEY_JOBS + " TEXT, " + KEY_JOB_DESCRIPTIONS + " TEXT, "
                 + KEY_SKILLS + " TEXT, " + KEY_EDUCATION + " TEXT, "
-                + KEY_REFERENCES + " TEXT, " + KEY_ADDRESS + " TEXT ,"
                 + KEY_CONTACT_INFO + " TEXT )";
         getWritableDatabase().execSQL(CREATE_CONTACTS_TABLE);
     }
@@ -82,8 +79,6 @@ public class DBHandler extends SQLiteOpenHelper {
         values.put(KEY_JOB_DESCRIPTIONS, ConvertArrayToString(resume.GetJobDescriptions()));
         values.put(KEY_SKILLS, ConvertArrayToString(resume.GetSkills()));
         values.put(KEY_EDUCATION, ConvertArrayToString(resume.GetEducation()));
-        values.put(KEY_REFERENCES, ConvertArrayToString(resume.GetReferences()));
-        values.put(KEY_ADDRESS, resume.GetAddress());
         values.put(KEY_CONTACT_INFO, ConvertArrayToString(resume.GetContactInfo()));
         return values;
     }
@@ -93,7 +88,7 @@ public class DBHandler extends SQLiteOpenHelper {
 
         Cursor cursor = db.query(TABLE_RESUMES, new String[]{KEY_ID,
                         KEY_NAME, KEY_SUMMARY, KEY_HEADERS, KEY_JOBS, KEY_JOB_DESCRIPTIONS,
-                        KEY_SKILLS, KEY_EDUCATION, KEY_REFERENCES, KEY_ADDRESS, KEY_CONTACT_INFO }, KEY_ID + "=?",
+                        KEY_SKILLS, KEY_EDUCATION, KEY_CONTACT_INFO }, KEY_ID + "=?",
                 new String[]{String.valueOf(id)}, null, null, null, null);
         if (cursor != null) {
             cursor.moveToFirst();
@@ -101,8 +96,7 @@ public class DBHandler extends SQLiteOpenHelper {
         Resume contact = new Resume(Integer.parseInt(cursor.getString(0)), cursor.getString(1),
                 cursor.getString(2), ConvertStringToArray(cursor.getString(3)), ConvertStringToArray(cursor.getString(4)),
                 ConvertStringToArray(cursor.getString(5)), ConvertStringToArray(cursor.getString(6)),
-                ConvertStringToArray(cursor.getString(7)), ConvertStringToArray(cursor.getString(8)),
-                cursor.getString(9), ConvertStringToArray(cursor.getString(10)));
+                ConvertStringToArray(cursor.getString(7)), ConvertStringToArray(cursor.getString(10)));
 
         cursor.close();
         return contact;
@@ -123,8 +117,7 @@ public class DBHandler extends SQLiteOpenHelper {
                 Resume resume = new Resume(Integer.parseInt(cursor.getString(0)), cursor.getString(1),
                         cursor.getString(2), ConvertStringToArray(cursor.getString(3)), ConvertStringToArray(cursor.getString(4)),
                         ConvertStringToArray(cursor.getString(5)), ConvertStringToArray(cursor.getString(6)),
-                        ConvertStringToArray(cursor.getString(7)), ConvertStringToArray(cursor.getString(8)),
-                        cursor.getString(9), ConvertStringToArray(cursor.getString(10)));
+                        ConvertStringToArray(cursor.getString(7)), ConvertStringToArray(cursor.getString(10)));
 
                 resumeList.add(resume);
             } while (cursor.moveToNext());
