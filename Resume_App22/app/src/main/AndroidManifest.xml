@@ -17,7 +17,8 @@
             </intent-filter>
         </activity>
         <activity android:name=".ResumeActivity" />
-        <activity android:name=".TargetActivity"></activity>
+        <activity android:name=".TargetActivity" />
+        <activity android:name=".ViewActivity"></activity>
     </application>
 
 </manifest>
