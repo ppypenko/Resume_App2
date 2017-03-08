@@ -22,13 +22,15 @@ public class DBHandler extends SQLiteOpenHelper {
 
     private static final String KEY_ID = "id";
     private static final String KEY_NAME = "name";
+    private static final String KEY_PHONE = "phone";
+    private static final String KEY_EMAIL = "email";
+    private static final String KEY_LINK = "link";
     private static final String KEY_SUMMARY = "summary";
-    private static final String KEY_HEADERS = "headers";
-    private static final String KEY_JOBS = "jobs";
+    private static final String KEY_JOB_TITLE = "job_title";
     private static final String KEY_JOB_DESCRIPTIONS = "job_descriptions";
     private static final String KEY_SKILLS = "skills";
+    private static final String KEY_EDUCATION_TITLE = "education_title";
     private static final String KEY_EDUCATION = "education";
-    private static final String KEY_CONTACT_INFO = "contact_info";
 
     public DBHandler(Context context) {
         super(context, DATABASE_NAME, null, DATABASE_VERSION);
@@ -42,10 +44,11 @@ public class DBHandler extends SQLiteOpenHelper {
     public void init() {
         String CREATE_CONTACTS_TABLE = "CREATE TABLE IF NOT EXISTS " + TABLE_RESUMES + "("
                 + KEY_ID + " INTEGER PRIMARY KEY AUTOINCREMENT," + KEY_NAME + " TEXT,"
-                + KEY_SUMMARY + " TEXT, " + KEY_HEADERS + " TEXT, "
-                + KEY_JOBS + " TEXT, " + KEY_JOB_DESCRIPTIONS + " TEXT, "
-                + KEY_SKILLS + " TEXT, " + KEY_EDUCATION + " TEXT, "
-                + KEY_CONTACT_INFO + " TEXT )";
+                + KEY_PHONE + " TEXT, " + KEY_EMAIL + " TEXT, "
+                + KEY_LINK + " TEXT, " + KEY_SUMMARY + " TEXT, "
+                + KEY_JOB_TITLE + " TEXT, " + KEY_JOB_DESCRIPTIONS + " TEXT, "
+                + KEY_SKILLS + " TEXT, " + KEY_EDUCATION_TITLE + " TEXT, "
+                + KEY_EDUCATION + " TEXT )";
         getWritableDatabase().execSQL(CREATE_CONTACTS_TABLE);
     }
 
@@ -72,14 +75,16 @@ public class DBHandler extends SQLiteOpenHelper {
 
     private ContentValues SetResumeContentValues(Resume resume, ContentValues values){
 
-        values.put(KEY_NAME, resume.GetName());
-        values.put(KEY_SUMMARY, resume.GetSummary());
-        values.put(KEY_HEADERS, ConvertArrayToString(resume.GetHeaders()));
-        values.put(KEY_JOBS, ConvertArrayToString(resume.GetJobs()));
-        values.put(KEY_JOB_DESCRIPTIONS, ConvertArrayToString(resume.GetJobDescriptions()));
-        values.put(KEY_SKILLS, ConvertArrayToString(resume.GetSkills()));
-        values.put(KEY_EDUCATION, ConvertArrayToString(resume.GetEducation()));
-        values.put(KEY_CONTACT_INFO, ConvertArrayToString(resume.GetContactInfo()));
+        values.put(KEY_NAME, resume.getName());
+        values.put(KEY_PHONE, resume.getPhone());
+        values.put(KEY_EMAIL, resume.getEmail());
+        values.put(KEY_LINK, resume.getLink());
+        values.put(KEY_SUMMARY, resume.getSummary());
+        values.put(KEY_JOB_TITLE, ConvertArrayToString(resume.getJobTitle()));
+        values.put(KEY_JOB_DESCRIPTIONS, ConvertArrayToString(resume.getJobDescriptions()));
+        values.put(KEY_SKILLS, ConvertArrayToString(resume.getSkills()));
+        values.put()
+
         return values;
     }
 
@@ -87,7 +92,7 @@ public class DBHandler extends SQLiteOpenHelper {
         SQLiteDatabase db = this.getReadableDatabase();
 
         Cursor cursor = db.query(TABLE_RESUMES, new String[]{KEY_ID,
-                        KEY_NAME, KEY_SUMMARY, KEY_HEADERS, KEY_JOBS, KEY_JOB_DESCRIPTIONS,
+                        KEY_NAME, KEY_PHONE, KEY_EMAIL, KEY_LINK, KEY_JOB_DESCRIPTIONS,
                         KEY_SKILLS, KEY_EDUCATION, KEY_CONTACT_INFO }, KEY_ID + "=?",
                 new String[]{String.valueOf(id)}, null, null, null, null);
         if (cursor != null) {
@@ -149,7 +154,7 @@ public class DBHandler extends SQLiteOpenHelper {
     public void deleteResume(Resume resume) {
         SQLiteDatabase db = this.getWritableDatabase();
         db.delete(TABLE_RESUMES, KEY_ID + " = ?",
-                new String[] { String.valueOf(resume.GetId()) });
+                new String[] { String.valueOf(resume.getId()) });
         db.close();
     }
 

@@ -6,6 +6,7 @@ package team.afalse.resume_app;
 
 public class Resume {
     private int id;
+    private String resumeName;
     private String name;
     private String phone;
     private String email;
@@ -19,8 +20,9 @@ public class Resume {
 
     public Resume(){}
 
-    public Resume(int id, String name, String phone, String email, String link, String summary, String[] jobTitle, String[] jobDescriptions, String[] skills, String[] educationTitle, String[] education) {
+    public Resume(int id, String resumeName, String name, String phone, String email, String link, String summary, String[] jobTitle, String[] jobDescriptions, String[] skills, String[] educationTitle, String[] education) {
         this.id = id;
+        this.resumeName = resumeName;
         this.name = name;
         this.phone = phone;
         this.email = email;
@@ -33,7 +35,8 @@ public class Resume {
         this.education = education;
     }
 
-    public Resume(String name, String phone, String email, String link, String summary, String[] jobTitle, String[] jobDescriptions, String[] skills, String[] educationTitle, String[] education) {
+    public Resume(String resumeName, String name, String phone, String email, String link, String summary, String[] jobTitle, String[] jobDescriptions, String[] skills, String[] educationTitle, String[] education) {
+        this.resumeName = resumeName;
         this.name = name;
         this.phone = phone;
         this.email = email;
@@ -132,5 +135,13 @@ public class Resume {
 
     public void setEducation(String[] education) {
         this.education = education;
+    }
+
+    public String getResumeName() {
+        return resumeName;
+    }
+
+    public void setResumeName(String resumeName) {
+        this.resumeName = resumeName;
     }
 }
