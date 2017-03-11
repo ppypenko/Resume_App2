@@ -13,7 +13,6 @@ import java.util.ArrayList;
 
 public class MainActivity extends AppCompatActivity {
 
-    private Button btnGo;
     private Spinner resumeGo;
     private ListView resumeList;
     private ArrayList<String> resumes = new ArrayList<String>();
@@ -21,7 +20,6 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        btnGo = (Button)findViewById(R.id.btnGo);
         resumeList = (ListView)findViewById(R.id.resumeList);
         resumeGo = (Spinner)findViewById(R.id.resumeGo);
 
@@ -31,18 +29,26 @@ public class MainActivity extends AppCompatActivity {
                 System.out.println(type);
             }
         });
+        loadResumeList();
+    }
 
-        btnGo.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                String go = resumeGo.getSelectedItem().toString();
-                if(go == "Classic"){
-                    Intent classic = new Intent(ResumeActivity.this, ResumeActivity.class);
-                    startActivity(classic);
-                }else if (go == "Target"){
+    private void loadResumeList(){
 
-                }
-            }
-        });
+    }
+
+    public void goToView(){
+
+    }
+
+    public void creatResume(View v){
+        String go = resumeGo.getSelectedItem().toString();
+        if("Classic".equals(go)) {
+            Intent classic = new Intent(this, ResumeActivity.class);
+            startActivity(classic);
+        }
+//        else if ("Target".equals(go)){
+//            Intent target = new Intent(this, TargetActivity.class);
+//            startActivity(target);
+//        }
     }
 }

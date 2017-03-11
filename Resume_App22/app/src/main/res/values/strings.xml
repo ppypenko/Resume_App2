@@ -2,7 +2,6 @@
     <string name="app_name">Resume_App</string>
     <string-array name="resume_templates">
         <item>Classic</item>
-        <item>Target</item>
     </string-array>
     <string-array name="classic_types">
         <item>Classic1</item>
