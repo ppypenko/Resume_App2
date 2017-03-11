@@ -5,6 +5,8 @@ package team.afalse.resume_app;
  */
 
 public class Target {
+    private int id;
+    private String resumeName;
     private String name;
     private String phone;
     private String email;
@@ -22,12 +24,14 @@ public class Target {
         this.answers = answers;
     }
 
-    public String getTitle() {
-        return name;
-    }
-
-    public void setTitle(String name) {
+    public Target(int id, String name, String phone, String email, String link, String[] requirements, String[] answers) {
+        this.id = id;
         this.name = name;
+        this.phone = phone;
+        this.email = email;
+        this.link = link;
+        this.requirements = requirements;
+        this.answers = answers;
     }
 
     public String getPhone() {
@@ -68,5 +72,29 @@ public class Target {
 
     public void setAnswers(String[] answers) {
         this.answers = answers;
+    }
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
+    }
+
+    public String getResumeName() {
+        return resumeName;
+    }
+
+    public void setResumeName(String resumeName) {
+        this.resumeName = resumeName;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
     }
 }
