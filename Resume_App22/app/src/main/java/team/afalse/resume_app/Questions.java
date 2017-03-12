@@ -11,9 +11,9 @@ public class Questions {
             "What is your email?",
             "What is your link?",
             "Please enter a short summary:",
+            "What are your skills?",
             "What are the jobs you have held?",
             "Please describe",
-            "What are your skills",
             "What education have you received?",
             "Please describe",
     };

@@ -1,15 +1,18 @@
 package team.afalse.resume_app;
 
 import android.content.Intent;
-import android.provider.Settings;
+import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
-import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Iterator;
 import java.util.List;
+import java.util.ListIterator;
 
 public class ResumeActivity extends AppCompatActivity {
 
@@ -19,16 +22,21 @@ public class ResumeActivity extends AppCompatActivity {
     private String[] questions;
     private DBHandler dbHandler;
     private boolean isNew;
-    private List<String> multipleAnswerList;
+    private ArrayList<String> multipleAnswerList;
+    private int stringArraysStart;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_resume);
 
+        multipleAnswerList = new ArrayList<>();
+        stringArraysStart = 5;
         questions = Questions.getQuestions();
         questionNum = questions.length;
         currentQuestion = 0;
+
+        // LOOK HERE FOR PASSING RESUME ID, PASS -1 FOR NEW RESUME
         Intent intent = getIntent();
         Bundle extras = intent.getExtras();
         int tmpId = extras.getInt("id");
@@ -62,24 +70,39 @@ public class ResumeActivity extends AppCompatActivity {
             case R.id.btn_save:
                 flushToDB();
                 break;
+            case R.id.btn_add:
+                addAnswer();
             default:
                 break;
         }
     }
 
-    protected void goToPreviousQuestion(){
+    protected void addAnswer(){
+        EditText answerField = (EditText) findViewById(R.id.txt_answer);
+        multipleAnswerList.add(answerField.getText().toString());
+        answerField.setText("");
+    }
 
+    protected void goToPreviousQuestion(){
+        --currentQuestion;
+        changeQuestion(currentQuestion);
     }
 
     protected void goToNextQuestion(){
-        if(currentQuestion == questionNum - 1){
-            flushToDB();
-            //TODO end here
-            return;
+        if(currentQuestion < stringArraysStart){
+            setFieldByAnswer(((EditText) findViewById(R.id.txt_answer)).getText().toString(), currentQuestion);
+        }
+        else if(currentQuestion >= stringArraysStart){
+            setFieldByAnswer((String[]) multipleAnswerList.toArray(), currentQuestion);
+            multipleAnswerList.clear();
         }
         ++currentQuestion;
         if(currentQuestion < questionNum){
             changeQuestion(currentQuestion);
+        }
+        else{
+            flushToDB();
+            finish();
         }
     }
 
@@ -88,8 +111,7 @@ public class ResumeActivity extends AppCompatActivity {
             dbHandler.updateResume(resumeCopy);
         }
         else{
-            dbHandler.addResume(resumeCopy);
-            //TODO get the id somehow
+            resumeCopy.setId(dbHandler.addResume(resumeCopy));
             isNew = false;
         }
     }
@@ -125,13 +147,13 @@ public class ResumeActivity extends AppCompatActivity {
     protected void setFieldByAnswer(String[] answer, int p_questionNum){
         switch (p_questionNum){
             case 5:
-                resumeCopy.setJobTitles(answer);
+                resumeCopy.setSkills(answer);
                 break;
             case 6:
-                resumeCopy.setJobDescriptions(answer);
+                resumeCopy.setJobTitles(answer);
                 break;
             case 7:
-                resumeCopy.setSkills(answer);
+                resumeCopy.setJobDescriptions(answer);
                 break;
             case 8:
                 resumeCopy.setEducationTitles(answer);
