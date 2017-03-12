@@ -64,14 +64,15 @@ public class DBHandler extends SQLiteOpenHelper {
         getWritableDatabase().execSQL("DROP TABLE IF EXISTS " + TABLE_RESUMES);
     }
 
-    public void addResume(Resume resume) {
+    public int addResume(Resume resume) {
         SQLiteDatabase db = this.getWritableDatabase();
 
         ContentValues values = new ContentValues();
         values = SetResumeContentValues(resume, values);
 
-        db.insertOrThrow(TABLE_RESUMES, null, values);
+        int id = (int)db.insertOrThrow(TABLE_RESUMES, null, values);
         db.close();
+        return id;
     }
 
     private ContentValues SetResumeContentValues(Resume resume, ContentValues values){
