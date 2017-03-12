@@ -18,6 +18,9 @@ public class Resume {
     private String[] educationTitles;
     private String[] educationDescription;
 
+    public Resume(){}
+
+
     public Resume(String resumeName, String name, String phone, String email, String link, String summary, String[] jobTitles, String[] jobDescriptions, String[] skills, String[] educationTitles, String[] educationDescription) {
         this.resumeName = resumeName;
         this.name = name;

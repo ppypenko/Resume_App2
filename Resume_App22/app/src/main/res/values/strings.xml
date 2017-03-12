@@ -7,4 +7,8 @@
         <item>Classic1</item>
         <item>Classic2</item>
     </string-array>
+    <string name="btn_save">Save</string>
+    <string name="btn_cancel">Cancel</string>
+    <string name="btn_next">Next</string>
+    <string name="btn_prev">Previous</string>
 </resources>
