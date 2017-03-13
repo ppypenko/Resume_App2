@@ -80,6 +80,7 @@ public class ResumeActivity extends AppCompatActivity {
     }
 
     protected void addAnswer(){
+        if (!isAddable()) return;
         EditText answerField = (EditText) findViewById(R.id.txt_answer);
         multipleAnswerList.add(answerField.getText().toString());
         ((EditText) findViewById(R.id.txt_answer)).setText("");
@@ -91,6 +92,10 @@ public class ResumeActivity extends AppCompatActivity {
             --currentQuestion;
             changeQuestion(currentQuestion);
         }
+    }
+
+    private boolean isAddable(){
+        return !((currentQuestion == 7 && resumeCopy.getJobTitles().length == multipleAnswerList.size()) || (currentQuestion == 9 && resumeCopy.getEducationTitles().length == multipleAnswerList.size()));
     }
 
     protected void goToNextQuestion(){
