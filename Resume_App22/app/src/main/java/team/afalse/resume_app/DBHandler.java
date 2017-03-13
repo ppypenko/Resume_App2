@@ -68,15 +68,6 @@ public class DBHandler extends SQLiteOpenHelper {
         SQLiteDatabase db = this.getWritableDatabase();
 
         ContentValues values = new ContentValues();
-        values = SetResumeContentValues(resume, values);
-
-        int id = (int)db.insertOrThrow(TABLE_RESUMES, null, values);
-        db.close();
-        return id;
-    }
-
-    private ContentValues SetResumeContentValues(Resume resume, ContentValues values){
-
         values.put(KEY_RESUME_NAME, resume.getResumeName());
         values.put(KEY_NAME, resume.getName());
         values.put(KEY_PHONE, resume.getPhone());
@@ -88,7 +79,10 @@ public class DBHandler extends SQLiteOpenHelper {
         values.put(KEY_SKILLS, ConvertArrayToString(resume.getSkills()));
         values.put(KEY_EDUCATION_TITLES, ConvertArrayToString(resume.getEducationTitles()));
         values.put(KEY_EDUCATION_DESCRIPTIONS, ConvertArrayToString(resume.getEducationDescription()));
-        return values;
+
+        int id = (int)db.insertOrThrow(TABLE_RESUMES, null, values);
+        db.close();
+        return id;
     }
 
     public Resume getResume(int id) {
@@ -152,7 +146,18 @@ public class DBHandler extends SQLiteOpenHelper {
         SQLiteDatabase db = this.getWritableDatabase();
 
         ContentValues values = new ContentValues();
-        values = SetResumeContentValues(resume, values);
+
+        values.put(KEY_RESUME_NAME, resume.getResumeName());
+        values.put(KEY_NAME, resume.getName());
+        values.put(KEY_PHONE, resume.getPhone());
+        values.put(KEY_EMAIL, resume.getEmail());
+        values.put(KEY_LINK, resume.getLink());
+        values.put(KEY_SUMMARY, resume.getSummary());
+        values.put(KEY_JOB_TITLES, ConvertArrayToString(resume.getJobTitles()));
+        values.put(KEY_JOB_DESCRIPTIONS, ConvertArrayToString(resume.getJobDescriptions()));
+        values.put(KEY_SKILLS, ConvertArrayToString(resume.getSkills()));
+        values.put(KEY_EDUCATION_TITLES, ConvertArrayToString(resume.getEducationTitles()));
+        values.put(KEY_EDUCATION_DESCRIPTIONS, ConvertArrayToString(resume.getEducationDescription()));
 
         int rowsUpdated = db.update(TABLE_RESUMES, values, KEY_ID + " = ?", new String[]{String.valueOf(resume.getId())});
         System.out.println("Rows updated: " + rowsUpdated);
@@ -168,6 +173,7 @@ public class DBHandler extends SQLiteOpenHelper {
 
     private static String strSeparator = "__,__";
     private static String ConvertArrayToString(String[] array){
+        if(array == null) return "";
         String str = "";
         for (int i = 0;i<array.length; i++) {
             str = str+array[i];
