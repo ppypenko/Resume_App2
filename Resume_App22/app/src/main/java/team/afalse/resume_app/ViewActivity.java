@@ -116,9 +116,9 @@ public class ViewActivity extends AppCompatActivity {
         doc += "SKILLS\n";
         int length = resume.getSkills().length;
         for(int i = 0; i < length; i += 3){
-            String col1 = ifExists(length, i)? "&bull;" + resume.getSkills()[i] : "";
-            String col2 = ifExists(length, i + 1)? "&bull;" + resume.getSkills()[i + 1] : "";
-            String col3 = ifExists(length, i + 2)? "&bull;" + resume.getSkills()[i + 2] : "";
+            String col1 = ifExists(length, i)? "" + resume.getSkills()[i] : "";
+            String col3 = ifExists(length, i + 2)? "" + resume.getSkills()[i + 2] : "";
+            String col2 = ifExists(length, i + 1)? "" + resume.getSkills()[i + 1] : "";
             doc += "" + col1 + " | " + col2 + " | " + col3 + "\n";
         }
         doc += "\n\n";
