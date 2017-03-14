@@ -3,6 +3,7 @@ package team.afalse.resume_app;
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
@@ -20,6 +21,7 @@ public class MainActivity extends AppCompatActivity {
     private List<Resume> resumes;
     private ArrayList<String> names = new ArrayList<String>();
     private DBHandler db;
+    private ArrayAdapter<String> adapter;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -34,16 +36,19 @@ public class MainActivity extends AppCompatActivity {
                 goToView(position);
             }
         });
+        Log.d("testing", "does it work?");
         loadResumeList();
     }
 
     private void loadResumeList(){
         resumes = db.getAllResumes();
+        Log.d("testing2", resumes.toString());
+        Log.d("testing3", "does it work 2?");
         for(int i = 0; i < resumes.size(); i++){
-            names.add(resumes.get(i).getResumeName());
+            names.add(resumes.get(i).getName());
+            Log.d("testing3", names.toString());
         }
-        ArrayAdapter<String> adapter = new ArrayAdapter<String>(this,
-                android.R.layout.simple_selectable_list_item, names);
+        adapter = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, names);
         resumeList.setAdapter(adapter);
     }
 

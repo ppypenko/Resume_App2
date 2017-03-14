@@ -9,12 +9,16 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 
+import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileOutputStream;
+import java.io.FileReader;
+import java.io.FileWriter;
 import java.io.IOException;
 import java.io.OutputStreamWriter;
 
 import word.api.interfaces.IDocument;
+import word.utils.TestUtils;
 import word.w2004.Document2004;
 import word.w2004.elements.BreakLine;
 import word.w2004.elements.Heading1;
@@ -34,7 +38,8 @@ public class ViewActivity extends AppCompatActivity {
     private DBHandler db;
     private TextView resumeView;
     private Resume resume;
-    private Button btnSave, btnBack, btnType, btnEdit, btnStyle;
+    private Button btnSave, btnBack, btnEdit;
+    private String text;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -42,9 +47,7 @@ public class ViewActivity extends AppCompatActivity {
 
         btnSave = (Button)findViewById(R.id.btnSave);
         btnBack = (Button)findViewById(R.id.btnBack);
-        btnType = (Button)findViewById(R.id.btnType);
         btnEdit = (Button)findViewById(R.id.btnEdit);
-        btnStyle = (Button)findViewById(R.id.btnStyle);
         resumeView = (TextView)findViewById(R.id.resumeView);
         btnSave.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -58,22 +61,10 @@ public class ViewActivity extends AppCompatActivity {
                 goToMain();
             }
         });
-        btnType.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-
-            }
-        });
         btnEdit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 goToResume();
-            }
-        });
-        btnStyle.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-
             }
         });
         Intent intent = getIntent();
@@ -91,20 +82,19 @@ public class ViewActivity extends AppCompatActivity {
     }
 
     private void setView(){
-        String docStr = buildDoc();
-        resumeView.setText(docStr);
+        text = buildDoc();
+        resumeView.setText(text.toString());
     }
 
     private void saveDoc(){
         if(isExternalStorageWritable()){
-            String docStr = buildDoc();
-            file = new File(Environment.DIRECTORY_DOCUMENTS, resume.getResumeName() + ".doc");
             FileOutputStream outputStream;
 
             try {
-                outputStream = openFileOutput(resume.getResumeName() + ".doc", Context.MODE_PRIVATE);
-                outputStream.write(docStr.getBytes());
+                outputStream = openFileOutput(resume.getName() + ".txt", Context.MODE_PRIVATE);
+                outputStream.write(text.getBytes());
                 outputStream.close();
+                System.out.println("File generated with name " + resume.getName() + ".txt");
             } catch (Exception e) {
                 e.printStackTrace();
             }
@@ -120,41 +110,69 @@ public class ViewActivity extends AppCompatActivity {
     }
 
     private String buildDoc(){
-        doc = new Document2004();
-        boolean done1 = false, done2 = false;
-        doc.encoding(Document2004.Encoding.UTF_8);
-        doc.addEle(Heading1.with(resume.getName()).withStyle().align(HeadingStyle.Align.CENTER).bold().create());
-        doc.addEle(Heading2.with(resume.getPhone() + " : " + resume.getEmail() + " : " + resume.getLink()).withStyle().align(HeadingStyle.Align.CENTER).create());
-        doc.addEle(new BreakLine(3));
-        doc.addEle(Heading3.with("SUMMARY").withStyle().align(HeadingStyle.Align.CENTER).bold().create());
-        doc.addEle(Paragraph.with(resume.getSummary()).create());
-        doc.addEle(new BreakLine(2));
-        doc.addEle(Heading2.with("SKILLS").withStyle().align(HeadingStyle.Align.CENTER).create());
-        Table tbl = new Table();
+        String doc = ""+ resume.getName() + "\n\n\n";
+        doc += "" + resume.getPhone() + " : " + resume.getEmail() + " : " + resume.getLink() + "\n\n";
+        doc += "SUMMARY\n" + resume.getSummary() + "\n\n";
+        doc += "SKILLS\n";
         int length = resume.getSkills().length;
         for(int i = 0; i < length; i += 3){
             String col1 = ifExists(length, i)? "&bull;" + resume.getSkills()[i] : "";
             String col2 = ifExists(length, i + 1)? "&bull;" + resume.getSkills()[i + 1] : "";
             String col3 = ifExists(length, i + 2)? "&bull;" + resume.getSkills()[i + 2] : "";
-            tbl.addTableEle(TableEle.TD, col1, col2, col3);
+            doc += "" + col1 + " | " + col2 + " | " + col3 + "\n";
         }
-        doc.addEle(tbl);
-        doc.addEle(new BreakLine(2));
-        doc.addEle(Heading2.with("EDUCATION").withStyle().align(HeadingStyle.Align.CENTER).create());
+        doc += "\n\n";
+        doc += "EDUCATION\n";
         length = resume.getEducationTitles().length;
         for(int i = 0; i < length; i++){
-            doc.addEle(Heading3.with(resume.getEducationTitles()[i]).withStyle().align(HeadingStyle.Align.LEFT).create());
-            doc.addEle(Heading3.with(resume.getEducationDescription()[i]).withStyle().align(HeadingStyle.Align.LEFT).create());
-            doc.addEle(new BreakLine(1));
+            doc += "" + resume.getEducationTitles()[i] + "\n";
+            doc += "" + resume.getEducationDescription()[i] + "\n";
+            doc += "\n";
         }
-        doc.addEle(new BreakLine(2));
+        doc += "\n\n";
         length = resume.getJobTitles().length;
+        doc += "JOBS\n";
         for(int i = 0; i < length; i++){
-            doc.addEle(Heading3.with(resume.getJobTitles()[i]).withStyle().align(HeadingStyle.Align.LEFT).create());
-            doc.addEle(Heading3.with(resume.getJobDescriptions()[i]).withStyle().align(HeadingStyle.Align.LEFT).create());
-            doc.addEle(new BreakLine(1));
+            doc += "" + resume.getJobTitles()[i] + "\n";
+            doc += "" + resume.getJobDescriptions()[i] + "\n";
+            doc += "\n";
         }
-        return doc.getContent();
+//        doc = new Document2004();
+//        boolean done1 = false, done2 = false;
+//        doc.encoding(Document2004.Encoding.UTF_8);
+//        doc.addEle(Heading1.with(resume.getName()).withStyle().align(HeadingStyle.Align.CENTER).bold().create());
+//        doc.addEle(Heading2.with(resume.getPhone() + " : " + resume.getEmail() + " : " + resume.getLink()).withStyle().align(HeadingStyle.Align.CENTER).create());
+//        doc.addEle(new BreakLine(3));
+//        doc.addEle(Heading3.with("SUMMARY").withStyle().align(HeadingStyle.Align.CENTER).bold().create());
+//        doc.addEle(Paragraph.with(resume.getSummary()).create());
+//        doc.addEle(new BreakLine(2));
+//        doc.addEle(Heading2.with("SKILLS").withStyle().align(HeadingStyle.Align.CENTER).create());
+//        Table tbl = new Table();
+//        int length = resume.getSkills().length;
+//        for(int i = 0; i < length; i += 3){
+//            String col1 = ifExists(length, i)? "&bull;" + resume.getSkills()[i] : "";
+//            String col2 = ifExists(length, i + 1)? "&bull;" + resume.getSkills()[i + 1] : "";
+//            String col3 = ifExists(length, i + 2)? "&bull;" + resume.getSkills()[i + 2] : "";
+//            tbl.addTableEle(TableEle.TD, col1, col2, col3);
+//        }
+//        doc.addEle(tbl);
+//        doc.addEle(new BreakLine(2));
+//        doc.addEle(Heading2.with("EDUCATION").withStyle().align(HeadingStyle.Align.CENTER).create());
+//        length = resume.getEducationTitles().length;
+//        for(int i = 0; i < length; i++){
+//            doc.addEle(Heading3.with(resume.getEducationTitles()[i]).withStyle().align(HeadingStyle.Align.LEFT).create());
+//            doc.addEle(Heading3.with(resume.getEducationDescription()[i]).withStyle().align(HeadingStyle.Align.LEFT).create());
+//            doc.addEle(new BreakLine(1));
+//        }
+//        doc.addEle(new BreakLine(2));
+//        length = resume.getJobTitles().length;
+//        for(int i = 0; i < length; i++){
+//            doc.addEle(Heading3.with(resume.getJobTitles()[i]).withStyle().align(HeadingStyle.Align.LEFT).create());
+//            doc.addEle(Heading3.with(resume.getJobDescriptions()[i]).withStyle().align(HeadingStyle.Align.LEFT).create());
+//            doc.addEle(new BreakLine(1));
+//        }
+//        return doc.getContent();
+        return doc;
     }
 
     private boolean ifExists(int length, int index){
