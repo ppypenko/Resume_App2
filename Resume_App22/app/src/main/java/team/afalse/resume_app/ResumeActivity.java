@@ -5,6 +5,7 @@ import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 
@@ -53,7 +54,7 @@ public class ResumeActivity extends AppCompatActivity {
             isNew = true;
         }
         changeQuestion(currentQuestion);
-
+        ((Button) findViewById(R.id.btn_add)).setEnabled(false);
     }
 
     public void onClick(View view){
@@ -72,28 +73,39 @@ public class ResumeActivity extends AppCompatActivity {
                 break;
             case R.id.btn_add:
                 addAnswer();
+                break;
             default:
                 break;
         }
     }
 
     protected void addAnswer(){
+        if (!isAddable()) return;
         EditText answerField = (EditText) findViewById(R.id.txt_answer);
         multipleAnswerList.add(answerField.getText().toString());
-        answerField.setText("");
+        ((EditText) findViewById(R.id.txt_answer)).setText("");
     }
 
     protected void goToPreviousQuestion(){
-        --currentQuestion;
-        changeQuestion(currentQuestion);
+        if (currentQuestion > 0)
+        {
+            --currentQuestion;
+            changeQuestion(currentQuestion);
+        }
+    }
+
+    private boolean isAddable(){
+        return !((currentQuestion == 7 && resumeCopy.getJobTitles().length == multipleAnswerList.size()) || (currentQuestion == 9 && resumeCopy.getEducationTitles().length == multipleAnswerList.size()));
     }
 
     protected void goToNextQuestion(){
-        if(currentQuestion < stringArraysStart){
+        if(currentQuestion < stringArraysStart - 1){
             setFieldByAnswer(((EditText) findViewById(R.id.txt_answer)).getText().toString(), currentQuestion);
         }
-        else if(currentQuestion >= stringArraysStart){
-            setFieldByAnswer((String[]) multipleAnswerList.toArray(), currentQuestion);
+        else if(currentQuestion >= stringArraysStart - 1){
+            findViewById(R.id.btn_add).setEnabled(true);
+            String[] array = convertToStringArray(multipleAnswerList);
+            setFieldByAnswer(array, currentQuestion);
             multipleAnswerList.clear();
         }
         ++currentQuestion;
@@ -106,8 +118,16 @@ public class ResumeActivity extends AppCompatActivity {
         }
     }
 
+    protected String[] convertToStringArray(ArrayList<String> strings){
+        String[] conversion = new String[strings.size()];
+        for (int k = 0; k < strings.size(); ++k){
+            conversion[k] = strings.get(k);
+        }
+        return conversion;
+    }
+
     protected void flushToDB(){
-        if(isNew){
+        if(!isNew){
             dbHandler.updateResume(resumeCopy);
         }
         else{
@@ -165,6 +185,4 @@ public class ResumeActivity extends AppCompatActivity {
                 break;
         }
     }
-
-
 }
